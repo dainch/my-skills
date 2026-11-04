@@ -169,4 +169,10 @@ cd wechat-content-studio  && python -m unittest discover -s tests -q   # 8 tests
 
 ## 许可证
 
-`hotnews` 采用 MIT 许可证（见 `hotnews/pyproject.toml`）。其余技能尚未单独声明许可证，如需复用请先联系作者。
+本仓库整体采用 [MIT 许可证](LICENSE)（`Copyright (c) 2026 dainch`），`hotnews` 子目录保持一致（见 `hotnews/pyproject.toml`）。
+
+```
+MIT License  Copyright (c) 2026 dainch
+```
+
+需注意：许可证覆盖的是本仓库的**文本与代码本身**，不改变其内容性质——法条原文请以官方发布版本为准，技术流程与实务打法仍需使用者自行承担责任（见上节免责声明）。
