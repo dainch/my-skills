@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prompt Optimizer"
+  short_description: "Turn vague goals into executable agent briefs"
+  default_prompt: "Use $prompt-optimizer to turn my project goal into an executable agent brief."

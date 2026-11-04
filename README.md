@@ -1,8 +1,8 @@
 # my-skills
 
-面向中文专业场景的 Agent 技能集合：**法律实务 · 工程技术 · 内容生产**。
+面向中文专业场景的 Agent 技能集合：**法律实务 · 知识产权 · 工程技术 · 内容生产 · 协作与文档**。
 
-6 个互相独立的 skill，统一采用 `SKILL.md`（YAML frontmatter 声明 `name` / `description`）+ 按需读取的 `references/` 渐进披露结构，可被任何按该约定加载技能的 agent 直接使用（如 Claude Code、pi）。
+9 个互相独立的 skill，统一采用 `SKILL.md`（YAML frontmatter 声明 `name` / `description`）+ 按需读取的 `references/` 渐进披露结构，可被任何按该约定加载技能的 agent 直接使用（如 Claude Code、pi）。
 
 ## 技能一览
 
@@ -11,9 +11,12 @@
 | [civil-code](civil-code/) | 法律 · 法条检索 | 民法典全 1260 条结构化检索，返回**逐字原文**与编/章/条号定位 | 「民法典第 577 条怎么规定」 |
 | [claim-chart](claim-chart/) | 法律 · 要件分析 | 专利权利要求对照表 / 民事构成要件分析表，每格附精确引用，**缺口检测优先** | 「我们证明这项主张还缺什么」 |
 | [loan-defense](loan-defense/) | 法律 · 应诉实务 | 网贷/金融借款纠纷「场景 → 打法」库 | 「收到网贷平台起诉怎么办」 |
+| [china-patent-writer](china-patent-writer/) | 知识产权 · 专利撰写 | 按 CNIPA 规范完成发明专利申请文件撰写、审查答复、质检与检索 | 「技术交底转专利」「答复审查意见」 |
 | [engineering-review-ppt](engineering-review-ppt/) | 工程技术 · 汇报 | 桥梁/隧道/土木评审汇报 PPT 五阶段生产线 | 「做施工图评审汇报 PPT」 |
 | [wechat-content-studio](wechat-content-studio/) | 内容生产 | 公众号文章 / 视频号视频 / 图文联动全程代做，含封面生成与发布前硬门禁 | 「公众号全程代做」「图文联动」 |
-| [hotnews](hotnews/) | 信息采集 | 关键词驱动热点收集 + 确定性 Markdown 日报渲染 | 「收集热点」「生成 briefing」 |
+| [hotnews](hotnews/) | 内容生产 · 信息采集 | 关键词驱动热点收集 + 确定性 Markdown 日报渲染 | 「收集热点」「生成 briefing」 |
+| [prompt-optimizer](prompt-optimizer/) | 协作 · 任务前置 | 把模糊目标转成可执行的 Agent Task Brief（含验收标准与禁止项） | 「帮我把需求写成任务书」 |
+| [readme-generator](readme-generator/) | 协作 · 项目文档 | 侦查项目后生成可溯源的中文 README，不编造功能与用法 | 「给这个项目写 README」 |
 
 ---
 
@@ -39,6 +42,15 @@
 ### loan-defense —— 网贷应诉打法
 
 按「场景 → 打法」组织：暴力/违规催收、微信支付宝账户冻结（财保 vs 执保）、法院支付令、网贷仲裁（先予/网络/虚假）、平台起诉、债权转让后起诉、征信代偿、信用卡退费、1068 骚扰短信、利息发票进项。每场景含判断信号、应诉步骤、法律依据、话术与文书、注意事项，并附证据清单、通用抗辩武器库、风险红线，以及源笔记的修正与待核实清单。
+
+### china-patent-writer —— 中国专利撰写
+
+按 CNIPA 规范覆盖发明专利申请文件五大组成部分：权利要求书、说明书、说明书附图、说明书摘要、摘要附图。五阶段流程为**创新点挖掘 → 技术情报检索 → 权利要求书撰写 → 说明书撰写 → 审查意见答复**。
+
+- 专利语言规范「拆 → 连 → 亮」：先描述零件与连接关系，再落到技术效果
+- 避坑指南分列权利要求书、说明书、审查答复三类典型错误
+- 含可折叠桌面收纳架完整实战案例与创新点挖掘/权利要求/说明书三套提示词模板
+- §十 专列 **Word 文档生成规范**：禁止用纯文本写 `.docx`，须用 `python-docx` 生成并回读校验；给出宋体/Arial、字号、1.5 倍行距、页边距等格式要求
 
 ### engineering-review-ppt —— 工程评审汇报 PPT
 
@@ -78,6 +90,23 @@ hotnews render --data interpret.json --output daily.md
 hotnews schema                                                 # 打印 interpret.json 契约
 ```
 
+### prompt-optimizer —— 任务前置
+
+把「我知道要什么，但说不清怎么做」转化成另一个 agent 能直接执行的 brief。它只写任务书，**不代做目标项目**（除非用户明确要求继续）。
+
+- 产出固定形状：`Background` / `Goal` / `Inputs` / `Execution Requirements` / `Success Criteria` / `Deliverables` / `Verification` / `Prohibited Actions` / `Choice Questions`
+- 信息不足时先给带默认值的选择题，而不是空等或自行脑补
+- `references/brief-patterns.md` 提供四类现成模式：Coding Project、Beginner Website、Prompt Optimization、GitHub Sharing
+- 注意：该技能正文为英文
+
+### readme-generator —— README 生成器
+
+三步走：**项目侦查**（读代码、配置、目录结构）→ **生成**（项目介绍/安装/启动命令/文件结构/常见问题）→ **质量检查**。
+
+- 核心原则：README 里每一条信息都必须能在项目文件中找到依据，不编造功能、不推测用法
+- 内置特殊场景处理：已有 README 时如何增量改写、多语言/多模块项目、单个脚本的极小项目、信息不足时如何标注不确定项
+- 与本仓库自身 README 的分工不同：它面向**任意项目**生成文档，不是维护本仓库用的
+
 ---
 
 ## 目录结构
@@ -97,20 +126,28 @@ hotnews schema                                                 # 打印 interpre
 │   ├── SKILL.md
 │   ├── config/CLAUDE.md
 │   └── references/knowledge-base.md
+├── china-patent-writer/
+│   └── SKILL.md               # 单文件自包含：结构规范 + 流程 + 避坑 + 案例 + 提示词模板
 ├── engineering-review-ppt/
 │   ├── SKILL.md
 │   └── references/{production-standard,outline-template,cjk-pitfalls}.md
 ├── wechat-content-studio/
 │   ├── SKILL.md
 │   ├── agents/openai.yaml
-│   ├── references/            # 16 个规则与模板
+│   ├── references/            # 15 个规则与模板
 │   ├── scripts/               # 封面生成 + 两个校验器
 │   └── tests/
-└── hotnews/
-    ├── SKILL.md  README.md  pyproject.toml
-    ├── references/interpret-schema.md
-    ├── src/hotnews/           # cli / collectors / http / models / render
-    └── tests/
+├── hotnews/
+│   ├── SKILL.md  README.md  pyproject.toml
+│   ├── references/interpret-schema.md
+│   ├── src/hotnews/           # cli / collectors / http / models / render
+│   └── tests/
+├── prompt-optimizer/
+│   ├── SKILL.md
+│   ├── agents/openai.yaml
+│   └── references/brief-patterns.md
+└── readme-generator/
+    └── SKILL.md               # 单文件自包含：侦查清单 + README 模板 + 质检项
 ```
 
 ## 安装
@@ -139,10 +176,11 @@ uvx --from "git+https://github.com/dainch/my-skills.git#subdirectory=hotnews" ho
 | Python | 3.9+ | hotnews、wechat-content-studio 脚本 |
 | uv / uvx | 可选，用于免安装运行 hotnews | hotnews |
 | Pillow | 生成封面时需要 | wechat-content-studio |
+| python-docx | 生成专利 Word 文档时需要（勿用纯文本伪造 `.docx`） | china-patent-writer |
 | 中文字体 | `create_wechat_cover.py` 默认读取 `C:\Windows\Fonts` 下的微软雅黑/等线/黑体/思源黑体；其他系统需改脚本中的字体路径或传 `--background` | wechat-content-studio |
 | `HOTNEWS_PROXY` | 可选，如 `http://127.0.0.1:7890`，访问 Reddit 时需要 | hotnews |
 
-`civil-code`、`claim-chart`、`loan-defense`、`engineering-review-ppt` 为纯 Markdown 技能，无运行时依赖。
+`civil-code`、`claim-chart`、`loan-defense`、`engineering-review-ppt`、`prompt-optimizer`、`readme-generator` 为纯 Markdown 技能，无运行时依赖。`china-patent-writer` 同样是单文件 Markdown 技能，只有落成 Word 交付物时才需要 `python-docx`。
 
 ## 自检
 
@@ -164,6 +202,7 @@ cd wechat-content-studio  && python -m unittest discover -s tests -q   # 8 tests
 ## 免责声明
 
 - `civil-code`、`claim-chart`、`loan-defense` 提供的是条文原文、要件结构与实务打法参考，**不构成法律意见**，也不能替代执业律师针对具体案件作出的判断。条文时效、司法解释与地方裁判口径请自行核对。
+- `china-patent-writer` 提供的是撰写规范、流程与模板，**不构成专利代理服务**，也不保证授权前景；新颖性/创造性判断、权利要求保护范围与检索结果需以实际检索和审查意见为准。
 - `engineering-review-ppt` 提供的是制作流程与排版规范，工程数据的正确性由设计图纸原件与使用者负责。
 - `wechat-content-studio` 只产出待发布包，不代为发布；发布前请自行完成事实核验与合规检查。
 
