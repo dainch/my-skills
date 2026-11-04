@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hotnews"
+version = "0.1.0"
+description = "Portable keyword-driven hot-news collector with deterministic Markdown rendering"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+dependencies = []
+keywords = ["news", "digest", "agent-skill", "collector"]
+
+[project.scripts]
+hotnews = "hotnews.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

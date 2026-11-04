@@ -1,0 +1,4 @@
+interface:
+  display_name: "微信内容工作室"
+  short_description: "自动完成公众号选题、资料研究、写作、审稿与待发布交付"
+  default_prompt: "请使用 $wechat-content-studio 自动完成选题、资料研究、写作、封面和审稿，并在生成通过校验的待发布包后停止。"
